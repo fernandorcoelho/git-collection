@@ -4,11 +4,11 @@ import { Switch, Route } from 'react-router-dom';
 import { Dashboard } from '../pages/Dashboard';
 import { Repo } from '../pages/Repo';
 
-export const Routes: React.FC = () => {
+export const Routes = () => {
   return (
     <Switch>
       <Route component={Dashboard} path="/" exact />
-      <Route component={Repo} path="/repositories" />
+      <Route component={Repo} path="/repositories/:repository+" />
     </Switch>
   );
 };
