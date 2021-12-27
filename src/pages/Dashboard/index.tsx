@@ -82,9 +82,9 @@ export const Dashboard = () => {
       {inputError && <Styles.Error>{inputError}</Styles.Error>}
 
       <Styles.Repos>
-        {repos.map(repository => (
+        {repos.map((repository, index) => (
           <Link
-            key={repository.full_name}
+            key={repository.full_name + index}
             to={`/repositories/${repository.full_name}`}
           >
             <img
