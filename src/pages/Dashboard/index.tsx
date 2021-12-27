@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import * as Styles from './styles';
@@ -30,6 +30,7 @@ export const Dashboard = () => {
   });
   const [newRepo, setNewRepo] = useState('');
   const [inputError, setInputError] = useState('');
+  const formEl = useRef<HTMLFormElement | null>(null);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setNewRepo(event.target.value);
@@ -47,12 +48,18 @@ export const Dashboard = () => {
       return;
     }
 
-    const response = await api.get<GithubRepository>(`/repos/${newRepo}`);
+    try {
+      const response = await api.get<GithubRepository>(`/repos/${newRepo}`);
 
-    const repository = response.data;
+      const repository = response.data;
 
-    setRepos([...repos, repository]);
-    setNewRepo('');
+      setRepos([...repos, repository]);
+      formEl.current?.reset();
+      setNewRepo('');
+      setInputError('');
+    } catch {
+      setInputError('Repositório não encontrado no Github');
+    }
   }
 
   return (
@@ -60,7 +67,11 @@ export const Dashboard = () => {
       <img src={logoImg} alt="GitCollection" />
       <Styles.Title>Catálogo de repositórios do Github</Styles.Title>
 
-      <Styles.Form onSubmit={handleAddRepo} hasError={Boolean(inputError)}>
+      <Styles.Form
+        ref={formEl}
+        onSubmit={handleAddRepo}
+        hasError={Boolean(inputError)}
+      >
         <input
           placeholder="username/repository_name"
           onChange={handleInputChange}
