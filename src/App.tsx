@@ -11,6 +11,7 @@ const App = () => {
       <BrowserRouter>
         <Routes />
       </BrowserRouter>
+
       <GlobalStyles />
     </>
   );

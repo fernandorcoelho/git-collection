@@ -18,7 +18,7 @@ interface GithubRepository {
   owner: OwnerProps;
 }
 
-export const Dashboard = () => {
+const Dashboard = () => {
   const [repos, setRepos] = useState<GithubRepository[]>(() => {
     const storageRepos = localStorage.getItem('@GitCollection:repositories');
 
@@ -104,3 +104,5 @@ export const Dashboard = () => {
     </>
   );
 };
+
+export default Dashboard;
